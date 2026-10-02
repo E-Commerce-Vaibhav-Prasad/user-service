@@ -1,4 +1,4 @@
-package com.ecom.user.controller;
+package com.ecom.userservice.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
