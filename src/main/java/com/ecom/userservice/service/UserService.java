@@ -1,41 +1,27 @@
 package com.ecom.userservice.service;
 
 import com.ecom.userservice.dto.request.CreateUserRequest;
+import com.ecom.userservice.dto.request.UpdateUserRequest;
+import com.ecom.userservice.dto.request.UpdateUserStatusRequest;
 import com.ecom.userservice.dto.response.UserResponse;
-import com.ecom.userservice.entity.User;
-import com.ecom.userservice.exception.UserNotFoundException;
-import com.ecom.userservice.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.ecom.userservice.dto.response.UserValidationResponse;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    UserResponse createUser(CreateUserRequest request);
 
-    public UserResponse createUser(CreateUserRequest request) {
+    UserResponse getUser(Long userId);
 
-        // 1. Validate email
+    UserResponse getUserByEmail(String email);
 
-        // 2. Check duplicate user
+    UserResponse updateUser(
+            Long userId,
+            UpdateUserRequest request);
 
-        // 3. Hash password
+    UserResponse updateStatus(
+            Long userId,
+            UpdateUserStatusRequest request);
 
-        // 4. Create entity
-
-        // 5. Save entity
-
-        // 6. Convert entity → response
-
-        return null;
-    }
-
-    public UserResponse getUser(Long userId) {
-        // 1. Find user by id
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
-        // 2. Convert entity → response
-
-        return null;
-    }
+    void deleteUser(Long userId);
+    public UserValidationResponse validateUser(Long userId);
 }

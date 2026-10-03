@@ -38,15 +38,12 @@ public class User {
     @Column(length = 20)
     private String phone;
 
-    @Column(nullable = false)
-    private String passwordHash;
+//    @Column(nullable = false)
+//    private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String status;
-
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false, length = 30)
-//    private UserStatus status;
+    private UserStatus status;
 
 
     @Column(name = "created_at", nullable = false)

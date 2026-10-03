@@ -1,8 +1,11 @@
 package com.ecom.userservice.controller;
 
 import com.ecom.userservice.dto.request.CreateUserRequest;
+import com.ecom.userservice.dto.request.UpdateUserRequest;
 import com.ecom.userservice.dto.response.UserResponse;
+import com.ecom.userservice.dto.response.UserValidationResponse;
 import com.ecom.userservice.service.UserService;
+import com.ecom.userservice.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,11 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-
-    @GetMapping("/user")
-    public String helloUser() {
-        return "Hello, this is user-service";
-    }
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(
@@ -42,4 +40,24 @@ public class UserController {
                 userService.getUser(userId)
         );
     }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserResponse> updateUser(
+            @PathVariable Long userId,
+            @Valid @RequestBody UpdateUserRequest request) {
+
+        return ResponseEntity.ok(
+                userService.updateUser(userId, request)
+        );
+    }
+
+    @GetMapping("/{userId}/validation")
+    public ResponseEntity<UserValidationResponse> validateUser(
+            @PathVariable Long userId) {
+
+        return ResponseEntity.ok(
+                userService.validateUser(userId)
+        );
+    }
+
 }

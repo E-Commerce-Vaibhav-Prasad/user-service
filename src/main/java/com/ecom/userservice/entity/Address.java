@@ -1,10 +1,19 @@
 package com.ecom.userservice.entity;
 
+import com.ecom.userservice.constant.AddressType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "addresses")
+@Table(name = "addresses",
+       indexes = {
+            @Index(name = "idx_address_user_id", columnList = "user_id")
+       }
+     )
 @Getter
 @Setter
 @NoArgsConstructor
@@ -48,9 +57,16 @@ public class Address {
     @Column(nullable = false, length = 10)
     private String pincode;
 
-    @Column(name = "address_type", length = 30)
-    private String addressType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "address_type", nullable = false)
+    private AddressType addressType;
 
     @Column(name = "is_default", nullable = false)
     private Boolean defaultAddress = false;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }

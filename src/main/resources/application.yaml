@@ -19,6 +19,13 @@ spring:
 server:
   port: 8080
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs       # Endpoint for raw OpenAPI JSON JSON
+  swagger-ui:
+    path: /swagger-ui.html   # Custom URL to view the UI portal
+    enabled: true
+
 eureka:
   client:
     service-url:

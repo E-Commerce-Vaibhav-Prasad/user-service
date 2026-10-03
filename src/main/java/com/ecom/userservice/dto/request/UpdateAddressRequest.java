@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateAddressRequest {
+public class UpdateAddressRequest {
 
     @NotBlank
     @Size(max = 150)
@@ -21,30 +21,23 @@ public class CreateAddressRequest {
     private String phone;
 
     @NotBlank
-    @Size(max = 255)
     private String addressLine1;
 
-    @Size(max = 255)
     private String addressLine2;
 
     @NotBlank
-    @Size(max = 100)
     private String city;
 
     @NotBlank
-    @Size(max = 100)
     private String state;
 
     @NotBlank
-    @Size(max = 100)
     private String country;
 
     @NotBlank
-    @Size(max = 10)
     private String pincode;
 
     @NotBlank
     private String addressType;
 
-    private Boolean defaultAddress = false;
 }
