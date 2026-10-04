@@ -11,6 +11,7 @@ import com.ecom.userservice.exception.DuplicateUserException;
 import com.ecom.userservice.exception.UserNotFoundException;
 import com.ecom.userservice.mapper.UserMapper;
 import com.ecom.userservice.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(CreateUserRequest request) {
 
@@ -32,14 +34,12 @@ public class UserServiceImpl implements UserService {
 
         // 2. Check duplicate user
 
-        // 3. Hash password
-
-        // 4. Create entity
         User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .status(UserStatus.ACTIVE)
                 .build();
 
@@ -60,7 +60,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getUserByEmail(String email) {
-        return null;
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException(
+                                "User not found: " + email
+                        )
+                );
+        return userMapper.toUserResponse(user);
     }
 
     @Override
@@ -78,12 +84,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse updateStatus(Long userId, UpdateUserStatusRequest request) {
-        return null;
+        User user = findUser(userId);
+        user.setStatus(request.getStatus());
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
     public void deleteUser(Long userId) {
-
+        User user = findUser(userId);
+        userRepository.delete(user);
     }
 
     @Override

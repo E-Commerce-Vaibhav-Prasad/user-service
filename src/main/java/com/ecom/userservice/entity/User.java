@@ -38,8 +38,8 @@ public class User {
     @Column(length = 20)
     private String phone;
 
-//    @Column(nullable = false)
-//    private String passwordHash;
+    @Column(name = "password_hash", nullable = false, length = 100)
+    private String passwordHash;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)

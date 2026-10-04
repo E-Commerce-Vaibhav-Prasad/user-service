@@ -1,16 +1,16 @@
 spring:
   application:
     name: user-service
-
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}
   datasource:
-    url: jdbc:mysql://localhost:3306/user_db?createDatabaseIfNotExist=true
-    username: root
-    password: root
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/user_db?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${JPA_DDL_AUTO:update}
     show-sql: true
     properties:
       hibernate:
@@ -21,14 +21,27 @@ server:
 
 springdoc:
   api-docs:
-    path: /v3/api-docs       # Endpoint for raw OpenAPI JSON JSON
+    path: /v3/api-docs
   swagger-ui:
-    path: /swagger-ui.html   # Custom URL to view the UI portal
+    path: /swagger-ui.html
     enabled: true
 
 eureka:
   client:
-    register-with-eureka: true # Tells the app to register with the server
-    fetch-registry: true       # Allows this service to cache and discover other services
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/ # The URL of your Eureka Server
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:ecom-local-jwt-signing-secret-01}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

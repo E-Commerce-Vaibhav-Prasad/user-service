@@ -2,10 +2,10 @@ package com.ecom.userservice.controller;
 
 import com.ecom.userservice.dto.request.CreateUserRequest;
 import com.ecom.userservice.dto.request.UpdateUserRequest;
+import com.ecom.userservice.dto.request.UpdateUserStatusRequest;
 import com.ecom.userservice.dto.response.UserResponse;
 import com.ecom.userservice.dto.response.UserValidationResponse;
 import com.ecom.userservice.service.UserService;
-import com.ecom.userservice.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,6 +58,22 @@ public class UserController {
         return ResponseEntity.ok(
                 userService.validateUser(userId)
         );
+    }
+
+    @PutMapping("/{userId}/status")
+    public ResponseEntity<UserResponse> updateStatus(
+            @PathVariable Long userId,
+            @Valid @RequestBody UpdateUserStatusRequest request) {
+
+        return ResponseEntity.ok(
+                userService.updateStatus(userId, request)
+        );
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 
 }
