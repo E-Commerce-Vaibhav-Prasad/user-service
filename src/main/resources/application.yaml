@@ -28,5 +28,7 @@ springdoc:
 
 eureka:
   client:
+    register-with-eureka: true # Tells the app to register with the server
+    fetch-registry: true       # Allows this service to cache and discover other services
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/ # The URL of your Eureka Server
